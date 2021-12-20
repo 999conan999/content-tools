@@ -233,6 +233,7 @@ class IndexLeft extends Component {
                         <Accordion.Item eventKey="5">
                             <Accordion.Header className='hdbv' ><b>Giá cả thuộc tính phụ thêm :</b></Accordion.Header>
                             <Accordion.Body>
+                                <i>1m x 2m,1500000//1m2 x 2m,1600000</i>
                                 <InputGroup  className="mb-2">
                                     <InputGroup.Text>Giá</InputGroup.Text>
                                     <FormControl as="textarea" aria-label="Từ khóa 1"  rows={2}  placeholder="điền kích thước và giá"

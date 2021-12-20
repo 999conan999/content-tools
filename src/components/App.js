@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import {random_content,convert_string_to_array,render_content} from './function'
 import IndexRight from './com-right/index-right'
 import IndexLeft from './com-left/index-left'
-import { Card ,Button,InputGroup,Accordion,FormControl,Form,Container,Row,Col,Image,Alert } from 'react-bootstrap';
+import { Modal ,Button } from 'react-bootstrap';
 // var _ = require('lodash');
 class App extends Component {
     constructor (props) {
@@ -108,13 +108,25 @@ class App extends Component {
                         // },
                     ]
                 }
-            }
+            },
+            show:false
             
         }
      }
+
+     click_tao_noi_dung=()=>{
+        this.setState({
+            show:true
+        })
+     }
+     setShow(type){
+         this.setState({
+             show:type
+         })
+     }
+
     render() {
-        let {data} =this.state;
-        // console.log("🚀 ~ file: App.js ~ line 24 ~ App ~ render ~ data", data)
+        let {data,show} =this.state;
         return (
             <div className='wrap-all'>
                 <IndexLeft 
@@ -126,6 +138,15 @@ class App extends Component {
                     data_right={data.data_right}
                     sendChangeData_right={this.sendChangeData_right}
                 />
+                <Modal show={show} fullscreen={'lg-down'} onHide={() => this.setShow(false)}>
+                    <Modal.Header closeButton>
+                    <Modal.Title>Xác nhận tạo nội dung ?</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                            <Button variant="primary" id="button-addon1"  onClick={()=>this.click_xac_nhan_tao_noi_dung()}>Xác nhận</Button> {' '}                                     
+                            <Button variant="secondary" id="button-addon1"  onClick={()=>this.setShow(false)}>Hủy</Button>                                       
+                    </Modal.Body>
+                </Modal>
             </div>
         );
     }
@@ -148,21 +169,21 @@ class App extends Component {
     }
 
     // tao noi dung
-    click_tao_noi_dung=()=>{
+    click_xac_nhan_tao_noi_dung=()=>{
+
         let {data} =this.state;
-        // console.log("🚀 ~ file: App.js ~ line 153 ~ App ~ data", data)
-        // xu ly main content o day
-        // let main_content_RD=random_content(data.data_left.main_content);
-        // console.log("🚀 ~ file: App.js ~ line 157 ~ App ~ data", data);
+        this.setShow(false);
         let data_contents=data.data_left;
         let contents=[];
         let data_render=data.data_right.key_chinh.data_render;
-        data_render.forEach(e => {
+        let data_final=[]
+        data_render.forEach((e,i) => {
             let main_content_RD=random_content(data.data_left.main_content);
             let tu_khoa_chinh=e.key;
             let tu_khoa_ho_tro_chinh=convert_string_to_array(e.text_ho_tro);
-            render_content(tu_khoa_chinh,tu_khoa_ho_tro_chinh,data.data_right.key_phu,data_contents,main_content_RD)
+            data_final.push(render_content(tu_khoa_chinh,tu_khoa_ho_tro_chinh,data.data_right.key_phu,data_contents,main_content_RD,data_render.length,i));
         });
+        console.log("🚀 ~ file: App.js ~ line 166 ~ App ~ data_render.forEach ~ data_final", data_final)
 
     }
 

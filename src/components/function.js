@@ -68,7 +68,7 @@ export function random_content(main_content){
       }           
   });
   // radom h2
-  let arr_h2=[],arr_more=[]; // [todo]
+  let arr_h2=[],arr_more=[]; //
 
   main_content_0.forEach(e => {
       if(e.type=='h2'){
@@ -149,17 +149,110 @@ export function random_content(main_content){
   return arr_more.concat(data_final);
 }
 //
-export function render_content(tu_khoa_chinh,tu_khoa_ho_tro_chinh,key_phu,data_contents,main_content_RD) {
-// console.log("🚀 ~ file: function.js ~ line 153 ~ render_content ~ main_content_RD", main_content_RD)
-// console.log("🚀 ~ file: function.js ~ line 153 ~ render_content ~ data_contents", data_contents)
-// console.log("🚀 ~ file: function.js ~ line 153 ~ render_content ~ key_phu", key_phu)
-// console.log("🚀 ~ file: function.js ~ line 153 ~ render_content ~ tu_khoa_ho_tro_chinh", tu_khoa_ho_tro_chinh)
-// console.log("🚀 ~ file: function.js ~ line 153 ~ render_content ~ tu_khoa_chinh", tu_khoa_chinh)
+export function render_content(tu_khoa_chinh,tu_khoa_ho_tro_chinh,key_phu,data_contents,main_content_RD,leng,i) {
+
   // xu ly category
-  let category=[];
+  let category=[]; //
   data_contents.category.forEach(e => {
       category.push(e.id)
   });
   // xu ly img_text (hinh dai dien - add text => return url)
-  
+  let text_img=data_contents.img_text;
+  let list_img=find_key(key_phu,text_img);
+  let thumnail_url='';//
+
+  if(list_img.length>=leng||list_img.length<leng&&i<list_img.length){
+      if(list_img[i].url!=undefined){
+        thumnail_url=list_img[i].url;
+      }
+  }else{
+      if(list_img[0]!=undefined){
+        thumnail_url= _.sample(list_img).url;
+      }
+
+  }
+  // xu ly gia price
+  let text_price=data_contents.price;
+  let price=xu_ly_gia(text_price); // 
+  // xu ly mo ta ngan
+  let short_des="<p>"+ xu_ly_content(data_contents.short_des,tu_khoa_chinh,tu_khoa_ho_tro_chinh,key_phu)+ "</p>";//
+  // xu ly show contact
+  let show_contact=data_contents.show_contact;
+  // xu ly title
+  let title=xu_ly_content(data_contents.title,tu_khoa_chinh,tu_khoa_ho_tro_chinh,key_phu);//
+  // xu ly mo ta dai, main_content_RD
+  let content='';//
+  main_content_RD.forEach(e => {
+      if(e.type=='h2'){
+          content+='<h2>'+xu_ly_content(e.data,tu_khoa_chinh,tu_khoa_ho_tro_chinh,key_phu)+'</h2>';
+      }else if(e.type=='h3'){
+        content+='<h3>'+xu_ly_content(e.data,tu_khoa_chinh,tu_khoa_ho_tro_chinh,key_phu)+'</h3>';
+      }if(e.type=='p'){
+        content+='<p>'+xu_ly_content(e.data,tu_khoa_chinh,tu_khoa_ho_tro_chinh,key_phu)+'</p>';
+      }if(e.type=='img'){
+        content+=xu_ly_content(e.data,tu_khoa_chinh,tu_khoa_ho_tro_chinh,key_phu);
+      }if(e.type=='table'){
+        content+=xu_ly_content(e.data,tu_khoa_chinh,tu_khoa_ho_tro_chinh,key_phu);
+      }
+  });
+ return {
+    category:category,
+    thumnail_url:thumnail_url,
+    price:price,
+    content:content,
+    title:title,
+    short_des:short_des,
+    show_contact:show_contact
+ }
+}
+function xu_ly_content(text,tu_khoa_chinh,tu_khoa_ho_tro_chinh,key_phu){ // outPut => chua add <p>
+    let result_1=replaceAll(text,'tu_khoa_chinh', tu_khoa_chinh)
+    let result_2=replaceAll(result_1,'tu_khoa_ho_tro_chinh', get_one_random_arr(tu_khoa_ho_tro_chinh));
+    key_phu.forEach(e => {
+        if(e.type=='img'){
+            let xxx=get_one_random_arr(e.data);
+            result_2=replaceAll(result_2,e.id, `<img title="${get_one_random_arr(tu_khoa_ho_tro_chinh)},${tu_khoa_chinh} " src="${xxx.url==undefined?'':xxx.url}">`);
+        }else if(e.type=='key'){
+            result_2=replaceAll(result_2,e.id, get_one_random_arr(convert_string_to_array(e.data)));
+        }
+    });
+    return result_2;
+}
+function get_one_random_arr(arr){
+    let result= _.sampleSize(arr,1)
+    if(result.length==0){
+        return '';
+    }else{
+        return result[0];
+    }
+    
+}
+function xu_ly_gia(text_price){// input text => out_put text
+    let list_text=replaceAll(((replaceAll(text_price,"// ", "//"))),'\n','').split("//");
+    let price='';
+    list_text.forEach((e,i) => {
+        if(e!=''){
+            let list_price=replaceAll(((replaceAll(e,", ", ","))),'\n','').split(",")
+            if(list_price.length==2){
+                if(i===list_text.length-1){
+                    price+=`<p>${list_price[0]},${_.random(0.98, 1.1)*Number(list_price[1])}</p>
+                    `
+                }else{
+                    price+=`<p>${list_price[0]},${_.random(0.98, 1.1)*Number(list_price[1])}</p>`
+                }
+            }
+        }
+    });
+    // 
+    return price;
+    
+}
+function find_key(key_phu,text_id){
+    let i= _.findIndex(key_phu, function(o) { return o.id == text_id; })
+    if(i!=-1){
+        return key_phu[i].data;
+    }else{
+        return [];
+    }
+
 }
