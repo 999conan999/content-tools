@@ -195,6 +195,11 @@ export function render_content(tu_khoa_chinh,tu_khoa_ho_tro_chinh,key_phu,data_c
         content+=xu_ly_content(e.data,tu_khoa_chinh,tu_khoa_ho_tro_chinh,key_phu);
       }
   });
+  // xu ly tu khoa lien quan;
+  let tu_khoa_lien_quan=tu_khoa_chinh;
+  tu_khoa_ho_tro_chinh.forEach(e => {
+      tu_khoa_lien_quan+=','+e;
+  });
  return {
     category:category,
     thumnail_url:thumnail_url,
@@ -202,7 +207,8 @@ export function render_content(tu_khoa_chinh,tu_khoa_ho_tro_chinh,key_phu,data_c
     content:content,
     title:title,
     short_des:short_des,
-    show_contact:show_contact
+    show_contact:show_contact,
+    tu_khoa_lien_quan:tu_khoa_lien_quan
  }
 }
 function xu_ly_content(text,tu_khoa_chinh,tu_khoa_ho_tro_chinh,key_phu){ // outPut => chua add <p>
@@ -235,10 +241,10 @@ function xu_ly_gia(text_price){// input text => out_put text
             let list_price=replaceAll(((replaceAll(e,", ", ","))),'\n','').split(",")
             if(list_price.length==2){
                 if(i===list_text.length-1){
-                    price+=`<p>${list_price[0]},${_.random(0.98, 1.1)*Number(list_price[1])}</p>
+                    price+=`<p>${list_price[0]},${parseFloat(_.random(0.000098, 0.00011)*Number(list_price[1])).toFixed(0)*10000}</p>
                     `
                 }else{
-                    price+=`<p>${list_price[0]},${_.random(0.98, 1.1)*Number(list_price[1])}</p>`
+                    price+=`<p>${list_price[0]},${parseFloat(_.random(0.000098, 0.00011)*Number(list_price[1])).toFixed(0)*10000}</p>`
                 }
             }
         }

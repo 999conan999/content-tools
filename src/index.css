@@ -161,3 +161,14 @@ span.input-group-text {
 .xxkk{
   padding-right: 42px;
 }
+.more-f{
+  position: fixed;
+  bottom: 100px;
+  right: 20%;
+  z-index: 999;
+}
+.trang{
+  color: white;
+  display: block;
+  background-color: rgb(143, 144, 148);
+}

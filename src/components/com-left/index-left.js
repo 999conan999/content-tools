@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
+import {get_category} from '../../constants'
 import { Card ,Button,InputGroup,Accordion,FormControl,Form,Container,Row,Col,Image,Alert } from 'react-bootstrap';
 class IndexLeft extends Component {
 
@@ -9,26 +10,32 @@ class IndexLeft extends Component {
         super(props)
         this.state = {
             category:[
-                {
-                    id:35,
-                    name:'giường sắt 1',
-                    is_check:false
-                },
-                {
-                    id:36,
-                    name:'giường sắt 2',
-                    is_check:false
-                },
-                {
-                    id:37,
-                    name:'giường sắt 3',
-                    is_check:false
-                },
+                // {
+                //     id:35,
+                //     name:'giường sắt 1',
+                //     is_check:false
+                // },
+                // {
+                //     id:36,
+                //     name:'giường sắt 2',
+                //     is_check:false
+                // },
+                // {
+                //     id:37,
+                //     name:'giường sắt 3',
+                //     is_check:false
+                // },
             ]
         }
      }
 
-
+    async componentDidMount(){
+        let data=await get_category();
+        this.setState({
+            category:data.data
+        })
+        
+     }
     render_category(category){
         let result=[];
         category.forEach((e,i) => {

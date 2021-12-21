@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {convert_string_to_array,create_by_name} from '../function'
+import {get_img_50} from '../../constants'
 import ReactDOM from 'react-dom';
 import { Card ,Button,InputGroup,Accordion,FormControl,Form,Container,Row,Col,Image,Modal,ToastContainer ,Toast } from 'react-bootstrap';
 class IndexRight extends Component {
@@ -20,44 +21,47 @@ class IndexRight extends Component {
             id_set:0,
             data_img:[],
             list_img:[
-                {
-                    id:1,
-                    url:'https://randompicturegenerator.com/img/dog-generator/gfa5e497e0a411b8011b6351f400a904b852bc3db30faf7b686e1281f6c7b68b77dee05d40c569ec60415cfa768c4909e_640.jpg'
-                },
-                {
-                    id:2,
-                    url:'https://i.picsum.photos/id/114/536/354.jpg?hmac=k0AFs1bPRXM6OHDPKMYMFT341dJlSiWBwF4mrwCtWcY'
-                },
-                {
-                    id:3,
-                    url:'https://i.picsum.photos/id/996/536/354.jpg?hmac=55RwV4siZL4WLqdMZl_0WkX-antm68uyZ3TczK3DZXY'
-                },
-                {
-                    id:4,
-                    url:'https://i.picsum.photos/id/996/536/354.jpg?hmac=55RwV4siZL4WLqdMZl_0WkX-antm68uyZ3TczK3DZXY'
-                },
-                {
-                    id:5,
-                    url:'https://i.picsum.photos/id/996/536/354.jpg?hmac=55RwV4siZL4WLqdMZl_0WkX-antm68uyZ3TczK3DZXY'
-                },
-                {
-                    id:6,
-                    url:'https://i.picsum.photos/id/996/536/354.jpg?hmac=55RwV4siZL4WLqdMZl_0WkX-antm68uyZ3TczK3DZXY'
-                },
-                {
-                    id:7,
-                    url:'https://i.picsum.photos/id/996/536/354.jpg?hmac=55RwV4siZL4WLqdMZl_0WkX-antm68uyZ3TczK3DZXY'
-                },
+                // {
+                //     id:1,
+                //     url:'https://randompicturegenerator.com/img/dog-generator/gfa5e497e0a411b8011b6351f400a904b852bc3db30faf7b686e1281f6c7b68b77dee05d40c569ec60415cfa768c4909e_640.jpg'
+                // },
+                // {
+                //     id:2,
+                //     url:'https://i.picsum.photos/id/114/536/354.jpg?hmac=k0AFs1bPRXM6OHDPKMYMFT341dJlSiWBwF4mrwCtWcY'
+                // },
+                // {
+                //     id:3,
+                //     url:'https://i.picsum.photos/id/996/536/354.jpg?hmac=55RwV4siZL4WLqdMZl_0WkX-antm68uyZ3TczK3DZXY'
+                // },
+                // {
+                //     id:4,
+                //     url:'https://i.picsum.photos/id/996/536/354.jpg?hmac=55RwV4siZL4WLqdMZl_0WkX-antm68uyZ3TczK3DZXY'
+                // },
+                // {
+                //     id:5,
+                //     url:'https://i.picsum.photos/id/996/536/354.jpg?hmac=55RwV4siZL4WLqdMZl_0WkX-antm68uyZ3TczK3DZXY'
+                // },
+                // {
+                //     id:6,
+                //     url:'https://i.picsum.photos/id/996/536/354.jpg?hmac=55RwV4siZL4WLqdMZl_0WkX-antm68uyZ3TczK3DZXY'
+                // },
+                // {
+                //     id:7,
+                //     url:'https://i.picsum.photos/id/996/536/354.jpg?hmac=55RwV4siZL4WLqdMZl_0WkX-antm68uyZ3TczK3DZXY'
+                // },
             ],
             //
-            show_toast:false
+            show_toast:false,
+            start_w:0
         }
      }
 
-     componentDidMount(){
-        //  this.setState({
-        //      data_right:this.props.data_right
-        //  })
+    async componentDidMount(){
+        let data=await get_img_50(0);
+         this.setState({
+            list_img:data.data
+         })
+        
      }
 
      // xu ly tu khoa chinh o day
@@ -289,7 +293,7 @@ fs_copy(text){
 
     render() {
         var {data_right}=this.props;
-        var {show,data_img,show_toast}=this.state;
+        var {show,data_img,show_toast,start_w,list_img}=this.state;
         let show_img_modal=this.show_data_modal(data_img)
         // console.log("🚀 ~ file: index-right.js ~ line 53 ~ IndexRight ~ render ~ data_right", data_right)
         let key_ho_tro=  this.show_key_ho_tro(data_right.key_chinh.data_render)
@@ -372,7 +376,7 @@ fs_copy(text){
                         </Accordion.Body>
                     </Accordion.Item>
                 </Accordion>
-                <Modal show={show} fullscreen={'lg-down'} onHide={() => this.setShow(false)}>
+                <Modal  show={show} size="lg" fullscreen={'lg-down'} onHide={() => this.setShow(false)}>
                     <Modal.Header closeButton>
                     <Modal.Title>Chọn hình ảnh</Modal.Title>
                     </Modal.Header>
@@ -386,6 +390,7 @@ fs_copy(text){
                           
                     </Modal.Body>
                 </Modal>
+
             </div>
             );
         }

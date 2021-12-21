@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import {random_content,convert_string_to_array,render_content} from './function'
+import {random_content,convert_string_to_array,render_content} from './function';
+import {active_create_post_list} from '../constants'
 import IndexRight from './com-right/index-right'
 import IndexLeft from './com-left/index-left'
 import { Modal ,Button } from 'react-bootstrap';
@@ -84,7 +85,7 @@ class App extends Component {
                     img_text:'',
                     short_des:'',
                     price:'',
-                    show_contact:false,
+                    show_contact:true,
                     main_content:[
                         // {
                         //     type:'h2',
@@ -183,7 +184,9 @@ class App extends Component {
             let tu_khoa_ho_tro_chinh=convert_string_to_array(e.text_ho_tro);
             data_final.push(render_content(tu_khoa_chinh,tu_khoa_ho_tro_chinh,data.data_right.key_phu,data_contents,main_content_RD,data_render.length,i));
         });
-        console.log("🚀 ~ file: App.js ~ line 166 ~ App ~ data_render.forEach ~ data_final", data_final)
+        // console.log("🚀 ~ file: App.js ~ line 166 ~ App ~ data_render.forEach ~ data_final", data_final)
+
+        active_create_post_list(data_final)
 
     }
 
