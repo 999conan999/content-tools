@@ -1,5 +1,5 @@
 const axios = require('axios');
-var domain='http://localhost/cofa'  
+var domain='https://cofa.vn'  
 
   export function url(type){
     if(type=='img'){

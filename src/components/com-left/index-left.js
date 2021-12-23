@@ -90,6 +90,12 @@ class IndexLeft extends Component {
         this.props.sendChangeData_left(data_left);
     }
     //
+    onChange_mo_ta_ngan(e){
+        let {data_left}=this.props;
+        data_left.mo_ta_ngan=e.target.value;
+        this.props.sendChangeData_left(data_left);
+    }
+    //
     onChange_price(e){
         let {data_left}=this.props;
         data_left.price=e.target.value;
@@ -229,9 +235,17 @@ class IndexLeft extends Component {
                             <Accordion.Header className='hdbv' ><b>Mô tả ngắn :</b></Accordion.Header>
                             <Accordion.Body>
                                 <InputGroup>
+                                    <InputGroup.Text>Mô tả phần đặc điểm</InputGroup.Text>
                                     <FormControl as="textarea" aria-label="Thêm mô tả ở đây"  rows={5}  placeholder="Mô tả ngắn" 
                                      value={data_left.short_des}
                                      onChange={(e)=>this.onChange_short_des(e)}
+                                    />
+                                </InputGroup>
+                                <InputGroup>
+                                    <InputGroup.Text>Mô tả kêu gọi</InputGroup.Text>
+                                    <FormControl as="textarea" aria-label="Thêm mô tả ở đây"  rows={5}  placeholder="Mô tả ngắn" 
+                                     value={data_left.mo_ta_ngan}
+                                     onChange={(e)=>this.onChange_mo_ta_ngan(e)}
                                     />
                                 </InputGroup>
                             </Accordion.Body>

@@ -175,7 +175,8 @@ export function render_content(tu_khoa_chinh,tu_khoa_ho_tro_chinh,key_phu,data_c
   let text_price=data_contents.price;
   let price=xu_ly_gia(text_price); // 
   // xu ly mo ta ngan
-  let short_des="<p>"+ xu_ly_content(data_contents.short_des,tu_khoa_chinh,tu_khoa_ho_tro_chinh,key_phu)+ "</p>";//
+  let short_des="<p>"+ xu_ly_content(data_contents.short_des,tu_khoa_chinh,tu_khoa_ho_tro_chinh,key_phu)+ "</p>\n";//
+  let mo_ta_ngan="<p>"+ xu_ly_content(data_contents.mo_ta_ngan,tu_khoa_chinh,tu_khoa_ho_tro_chinh,key_phu)+ "</p>\n";//
   // xu ly show contact
   let show_contact=data_contents.show_contact;
   // xu ly title
@@ -184,15 +185,15 @@ export function render_content(tu_khoa_chinh,tu_khoa_ho_tro_chinh,key_phu,data_c
   let content='';//
   main_content_RD.forEach(e => {
       if(e.type=='h2'){
-          content+='<h2>'+xu_ly_content(e.data,tu_khoa_chinh,tu_khoa_ho_tro_chinh,key_phu)+'</h2>';
+          content+='<h2>'+xu_ly_content(e.data,tu_khoa_chinh,tu_khoa_ho_tro_chinh,key_phu)+'</h2>\n';
       }else if(e.type=='h3'){
-        content+='<h3>'+xu_ly_content(e.data,tu_khoa_chinh,tu_khoa_ho_tro_chinh,key_phu)+'</h3>';
+        content+='<h3>'+xu_ly_content(e.data,tu_khoa_chinh,tu_khoa_ho_tro_chinh,key_phu)+'</h3>\n';
       }if(e.type=='p'){
-        content+='<p>'+xu_ly_content(e.data,tu_khoa_chinh,tu_khoa_ho_tro_chinh,key_phu)+'</p>';
+        content+='<p>'+xu_ly_content(e.data,tu_khoa_chinh,tu_khoa_ho_tro_chinh,key_phu)+'</p>\n';
       }if(e.type=='img'){
-        content+=xu_ly_content(e.data,tu_khoa_chinh,tu_khoa_ho_tro_chinh,key_phu);
+        content+=xu_ly_content(e.data,tu_khoa_chinh,tu_khoa_ho_tro_chinh,key_phu)+'\n';
       }if(e.type=='table'){
-        content+=xu_ly_content(e.data,tu_khoa_chinh,tu_khoa_ho_tro_chinh,key_phu);
+        content+=xu_ly_content(e.data,tu_khoa_chinh,tu_khoa_ho_tro_chinh,key_phu)+'\n';
       }
   });
   // xu ly tu khoa lien quan;
@@ -208,7 +209,8 @@ export function render_content(tu_khoa_chinh,tu_khoa_ho_tro_chinh,key_phu,data_c
     title:title,
     short_des:short_des,
     show_contact:show_contact,
-    tu_khoa_lien_quan:tu_khoa_lien_quan
+    tu_khoa_lien_quan:tu_khoa_lien_quan,
+    mo_ta_ngan:mo_ta_ngan
  }
 }
 function xu_ly_content(text,tu_khoa_chinh,tu_khoa_ho_tro_chinh,key_phu){ // outPut => chua add <p>
@@ -241,10 +243,10 @@ function xu_ly_gia(text_price){// input text => out_put text
             let list_price=replaceAll(((replaceAll(e,", ", ","))),'\n','').split(",")
             if(list_price.length==2){
                 if(i===list_text.length-1){
-                    price+=`<p>${list_price[0]},${parseFloat(_.random(0.000098, 0.00011)*Number(list_price[1])).toFixed(0)*10000}</p>
+                    price+=`<p>${list_price[0]},${parseFloat(_.random(0.000098, 0.00011)*Number(list_price[1])).toFixed(0)*10000}</p>\n
                     `
                 }else{
-                    price+=`<p>${list_price[0]},${parseFloat(_.random(0.000098, 0.00011)*Number(list_price[1])).toFixed(0)*10000}</p>`
+                    price+=`<p>${list_price[0]},${parseFloat(_.random(0.000098, 0.00011)*Number(list_price[1])).toFixed(0)*10000}</p>\n`
                 }
             }
         }
